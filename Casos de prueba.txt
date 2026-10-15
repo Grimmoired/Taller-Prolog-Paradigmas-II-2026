@@ -1,0 +1,76 @@
+Proyecto OrientadorCE - Casos de prueba
+
+Cómo ejecutarlos:
+1. Abrir una terminal en la carpeta que contiene BD.pl, BNF.pl y Logic.pl.
+2. ejecutar "swipl Logic.pl" en la terminal
+3. ?- ejecutar "orientador." en la terminal
+4. Escribir las frases de cada caso en el orden indicado, una por línea.
+(La ortografia puede variar en el uso de mayusculas, tildes, y si las frases terminan o no con punto, todos estos casos son manejados por el programa.)
+(El programa hara preguntas para continuar de manera natural el flujo de la conversacion, sin embargo no es necesario responder especificamente a lo que pide, cualquier frase de input válida se registra.)
+(Parece haber un bug causado por la forma en la que el IDE SWI-Prolog maneja el uso de la tecla backspace, la cual deja alguna especie de caracter invicible despues de borrar una letra o palabra, lo cual causa que el orientador responda con que no entendio el input, es preferible intentar escribir las frases de input sin borrar nada para evitar encontrar este error.)
+
+Caso 1: Perfil orientado a la tecnologia.
+Entradas:
+  Me gustan las matemáticas.
+  Disfruto trabajar con tecnología.
+  Me gusta resolver problemas.
+
+Resultado esperado:
+  Profesión compatible con matemáticas, tecnología y
+  resolución de problemas, en este caso recomienda Ingeniería en Computadores
+  (coincide con: matematicas, tecnologia, resolverProblemas).
+
+
+
+Caso 2: Perfil social
+Entradas:
+  No me gusta la tecnología.
+  Me interesa ayudar a las personas.
+  Prefiero escuchar a los demás.
+
+Resultado esperado:
+  Reconoce la preferencia negativa y recomienda una profesión compatible con el interés social y la escucha, en este caso Psicología, Educación y Enfermería 
+  (estas empatan, ya que todas coinciden con ayudarPersonas y escuchar).
+
+
+
+Caso 3: Negación de una afinidad (dos ejecuciones)
+Se pueden ejecutar 2 conversaciones similares, para ver la diferencia que hace un solo cambio en preferencias:
+Ejecución 1:
+  Me gustan las matemáticas.
+  Me gusta la tecnología.
+  Me gusta resolver problemas.
+
+Ejecución 2 (solo cambia la segunda frase):
+  Me gustan las matemáticas.
+  No me gusta la tecnología.
+  Me gusta resolver problemas.
+
+Resultado esperado:
+  Interpreta de forma diferente ambas frases, la preferencia negativa no se registra como afinidad y se considera al generar la recomendación.
+  1: registra afinidad por tecnología y recomienda Ingeniería en Computadores.
+  2: registra preferencia negativa por tecnología, por lo que Ingeniería en Computadores se descarta y recomienda Arquitectura e Ingeniería Civil
+     (coinciden con matematicas y resolverProblemas).
+
+
+
+Caso 4: Respuesta no reconocida
+Entradas:
+  La ventana está abierta.
+  Me gustan las matemáticas.
+  Disfruto trabajar con tecnología.
+  Me gusta resolver problemas.
+
+Resultado esperado:
+  Solicita reformular la primera respuesta, no registra ninguna preferencia con esta y continúa hasta dar una conclusion al recibir las frases que si son válidas.
+
+
+
+Caso 5: Perfil sin coincidencias
+Entradas:
+  Me gustan los negocios.
+  Me gusta la naturaleza.
+  Me gusta la tecnología.
+
+Resultado esperado:
+  Informa que no encontro una recomendación compatible, evitando recomendar una profesión que contradiga las preferencias.
